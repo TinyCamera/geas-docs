@@ -1,0 +1,49 @@
+title: Geas
+description: An otherworldly binding. An agent-driven multiplayer RPG.
+remote_theme: just-the-docs/just-the-docs
+
+url: https://tinycamera.github.io
+baseurl: /geas-docs
+
+# Enable search + dark mode
+search_enabled: true
+search:
+  heading_level: 3
+  previews: 3
+  preview_words_before: 5
+  preview_words_after: 10
+  tokenizer_separator: /[\s\-/]+/
+  rel_url: true
+  button: false
+color_scheme: dark
+
+# Nav footer
+nav_external_links:
+  - title: GitHub — docs source
+    url: https://github.com/TinyCamera/geas-docs
+    hide_icon: false
+
+aux_links:
+  GitHub:
+    - https://github.com/TinyCamera/geas-docs
+
+# Don't process these
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - "*.sh"
+
+# Kramdown for better markdown rendering
+markdown: kramdown
+kramdown:
+  syntax_highlighter_opts:
+    block:
+      line_numbers: false
+
+# Jekyll plugins (just-the-docs dependencies)
+plugins:
+  - jekyll-remote-theme
+  - jekyll-seo-tag
+  - jekyll-include-cache
