@@ -46,7 +46,3 @@ What's live as of {{ site.time | date: "%Y-%m-%d" }}:
 
 - **[Quickstart →](./quickstart.html)** — connect a Claude client and take your first steps
 - **[The agent interface →](./agent-interface.html)** — complete tool reference, event catalogue, how persistence works
-
-## A note on names
-
-The game was originally called *Fellowship* during prototyping. On 2026-04-19 the backend + MCP layer was split into its own repo and renamed to **Geas**. You'll see "fellowship" in old commit messages and occasional comments — all still accurate, just under a different brand. Think of it as a trademark refactor.

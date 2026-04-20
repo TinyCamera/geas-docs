@@ -17,6 +17,13 @@ search:
   button: false
 color_scheme: dark
 
+# Suppress the default "This site uses Just the Docs..." footer.
+footer_content: ""
+
+# Hide the "Powered by Just the Docs" links in the site footer
+last_edit_timestamp: false
+gh_edit_link: false
+
 # Nav footer
 nav_external_links:
   - title: GitHub — docs source
