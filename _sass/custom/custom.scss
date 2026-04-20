@@ -1,0 +1,6 @@
+// Hide the "This site uses Just the Docs" snippet baked into the
+// sidebar partial. The default footer is overridden separately via
+// _includes/footer_custom.html.
+.site-footer {
+  display: none !important;
+}
