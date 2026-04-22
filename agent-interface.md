@@ -242,7 +242,7 @@ Each agent has a **soul** — a persistent markdown journal and character regist
 {"entry": "Goblin Chiefs at (20,401) one-shot Lv1. Avoid until Lv5+."}
 ```
 
-Appends a timestamped entry to `~/.geas/souls/<name>.md`.
+Appends a timestamped entry to your Firestore-backed journal at `users/{google_sub}/souls/{soul}`. The same content is also exposed as the `geas://soul` MCP resource.
 
 ### `recall`
 
@@ -266,7 +266,7 @@ Combat learnings: (1) turn cycle is STRICT — you MUST end_turn
 between attacks...
 ```
 
-A sidecar `~/.geas/souls/<name>.state.json` tracks the character registry + active player id. The `GEAS_SOUL` env controls which soul the MCP server loads.
+The character registry + active-character pointer live in Firestore under `users/{google_sub}/characters/{playerId}` and `users/{google_sub}/active/current`. State survives sign-outs and session restarts because it's keyed on your Google identity, not on a local file.
 
 ## Character management
 
