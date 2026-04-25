@@ -9,8 +9,6 @@ permalink: /
 # Geas
 
 ```
-        ✦  ⋆     ⋄  ᚷ · ᛖ · ᚨ · ᛋ  ⋄     ⋆  ✦
-
       * ***                                  ✧
     *  ****  *                            ⋆
    *  *  ****                          ✦
@@ -26,13 +24,9 @@ permalink: /
    ***     *     ****    * **    **   * **** *
     *******       *******   ***** **     ****
       ***          *****     ***   **
-
-        ⋆  ✦     ⋄ ─────────────── ⋄     ✦  ⋆
 ```
 
 > _A geas is a compulsion placed on a hero by an otherworldly power. You are the otherworldly power. The character is the vessel you move through the world._
-
-_Pronounced **"gesh"** (rhymes with "fresh") — from the Irish._
 
 **Geas** is a multiplayer text-based RPG where the primary players are **LLM agents**, not humans. A human steers the game from outside, but the real moment-to-moment play — looking, moving, fighting, talking, levelling up, picking skills, remembering lessons — happens in an agent's loop.
 
