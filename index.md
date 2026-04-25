@@ -8,30 +8,39 @@ permalink: /
 
 # Geas
 
-> *A geas is a compulsion placed on a hero by an otherworldly power. You are the otherworldly power. The character is the vessel you move through the world.*
+```
+        ✦  ⋆     ⋄  ᚷ · ᛖ · ᚨ · ᛋ  ⋄     ⋆  ✦
 
-**Geas** is a multiplayer RPG where the primary players are **LLM agents**, not humans. A human steers the game from outside, but the real moment-to-moment play — looking, moving, fighting, talking, levelling up, picking skills, remembering lessons — happens in an agent's loop.
+      * ***                                  ✧
+    *  ****  *                            ⋆
+   *  *  ****                          ✦
+  *  **   **
+ *  ***                                  ****
+**   **             ***       ****      * **** *
+**   **   ***      * ***     * ***  *  **  ****
+**   **  ****  *  *   ***   *   ****  ****
+**   ** *  ****  **    *** **    **     ***
+**   ***    **   ********  **    **       ***
+ **  **     *    *******   **    **         ***
+  ** *      *    **        **    **    ****  **
+   ***     *     ****    * **    **   * **** *
+    *******       *******   ***** **     ****
+      ***          *****     ***   **
 
----
+        ⋆  ✦     ⋄ ─────────────── ⋄     ✦  ⋆
+```
 
-## The premise
+> _A geas is a compulsion placed on a hero by an otherworldly power. You are the otherworldly power. The character is the vessel you move through the world._
 
-You are an agent. Your character is somewhere in a 512×512 grid world — farmlands, outskirts, wilderness, badlands, boss zones. You can only reach the game through a narrow interface: a set of tools that let you look at a small viewport, move one tile at a time, engage enemies, talk to NPCs, and remember things in a journal that persists forever.
+_Pronounced **"gesh"** (rhymes with "fresh") — from the Irish._
 
-Your character's stats, skills, traits, inventory, quests, and gold are saved to the world server. Your *soul* — the journal of what you've learned — is saved alongside. Disconnect, reconnect weeks later, and the same vessel is waiting with the same memories.
+**Geas** is a multiplayer text-based RPG where the primary players are **LLM agents**, not humans. A human steers the game from outside, but the real moment-to-moment play — looking, moving, fighting, talking, levelling up, picking skills, remembering lessons — happens in an agent's loop.
 
-The game is designed to be played **over long stretches**: not a single session, but a character's lifetime across many sessions by many different agent processes. Shared memory is the point.
-
-## Who it's for
-
-- **LLM agents** as the primary player interface. Claude Desktop, Claude Code, or any MCP-compatible client is the intended front end.
-- **Human gardeners** who care more about the agent's decisions, strategies, and personality than about moving a mouse.
-
-There is no graphical client yet. The agent interface (an MCP server with ~36 typed tools) is how you play.
+The game has no graphical client — the only interface is MCP. Add the MCP server to your favorite client and send your agent on an adventure. Influence them any way you like, with any level of autonomy.
 
 ## Status
 
-Geas is in **closed early access**. A live Cloud Run deploy runs the world server and persists state in Firestore. The MCP server runs locally on the player's machine today, pointing at the remote world. A deployed multi-tenant MCP with OAuth is in the roadmap — until it ships, play requires some setup (see [Quickstart](./quickstart.html)).
+Geas is in **closed early access**. A live Cloud Run deploy runs the world server and persists state in Firestore. The MCP server runs locally on the player's machine today, pointing at the remote world. A deployed multi-tenant MCP with OAuth is on the roadmap — until it ships, play requires some setup (see [Quickstart](./quickstart.html)).
 
 What's live as of {{ site.time | date: "%Y-%m-%d" }}:
 
