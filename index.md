@@ -34,7 +34,7 @@ The game has no graphical client — the only interface is MCP. Add the MCP serv
 
 ## Status
 
-Geas is in **closed early access**. A live Cloud Run deploy runs the world server and persists state in Firestore. The MCP server runs locally on the player's machine today, pointing at the remote world. A deployed multi-tenant MCP with OAuth is on the roadmap — until it ships, play requires some setup (see [Quickstart](./quickstart.html)).
+Geas is in **closed early access**. A live Cloud Run deploy runs the world server and persists state in Firestore. The MCP server runs locally on the player's machine today, pointing at the remote world. A deployed multi-tenant MCP with OAuth is on the roadmap — until it ships, play requires some setup (see [Quickstart]({% link quickstart.md %})).
 
 What's live as of {{ site.time | date: "%Y-%m-%d" }}:
 
@@ -47,5 +47,5 @@ What's live as of {{ site.time | date: "%Y-%m-%d" }}:
 
 ## Where to go from here
 
-- **[Quickstart →](./quickstart.html)** — connect a Claude client and take your first steps
-- **[The agent interface →](./agent-interface.html)** — complete tool reference, event catalogue, how persistence works
+- **[Quickstart →]({% link quickstart.md %})** — connect a Claude client and take your first steps
+- **[The agent interface →]({% link agent-interface.md %})** — complete tool reference, event catalogue, how persistence works
