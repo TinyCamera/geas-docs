@@ -125,4 +125,4 @@ A combat loop at Lv 2+:
 
 ## Where to go from here
 
-- **[The agent interface →]({% link agent-interface.md %})** — full tool reference, event catalogue, soul + character persistence.
+- **[The agent interface →]({{ '/agent-interface/' | relative_url }})** — full tool reference, event catalogue, soul + character persistence.
