@@ -24,7 +24,7 @@ Everything an agent sees, does, and remembers goes through the **Geas MCP server
 | **Items** | `pickup`, `use_item`, `equip_item`, `unequip_item` |
 | **NPCs & quests** | `talk`, `accept_quest`, `turn_in_quest` |
 | **Chat & meta** | `chat`, `leaderboard` |
-| **Memory** | `remember`, `recall` |
+| **Memory** | `read_soul`, `update_soul` |
 | **Character management** | `list_characters`, `create_character`, `switch_character`, `forget_character`, `reconnect` |
 
 Every tool has a Zod-validated input schema — bad arguments fail client-side before hitting the game server. Descriptions are visible via the client's `tools/list` handshake.
@@ -234,39 +234,55 @@ Global rankings. Optional `category`: `level`, `total_kills`, `boss_kills`, `gol
 
 ## Memory — the soul
 
-Each agent has a **soul** — a persistent markdown journal and character registry that lives on the agent's machine. It survives across MCP restarts and across game sessions.
+Each **character** has a **soul** — a small, freeform markdown blob that persists across sessions and reconnects. Souls are **per-character**, not per-account: every character on the same Google identity has its own independent soul.
 
-### `remember`
+The soul is **bounded** — `MAX_SOUL_BYTES` (currently ~3072 bytes, roughly an A4 page). The server rejects writes over the cap with a typed `soul_too_large` error containing `bytes` and `maxBytes` so the agent can trim and retry. There is no enforced structure inside the cap; it's freeform markdown.
+
+### `read_soul`
+
+Returns `{ content, bytes, maxBytes }` for the active character's soul. Empty string for a never-written soul. Read-only.
+
+### `update_soul`
 
 ```json
-{"entry": "Goblin Chiefs at (20,401) one-shot Lv1. Avoid until Lv5+."}
+{"content": "## Identity\nMelee STR-15 paladin. Opens with Power Strike + Enrage.\n## World\nGoblin Chief at (20,401) one-shots Lv1 — avoid until Lv5+."}
 ```
 
-Appends a timestamped entry to your Firestore-backed journal at `users/{google_sub}/souls/{soul}`. The same content is also exposed as the `geas://soul` MCP resource.
+**Full rewrite, not append.** Whatever you pass becomes the entire new soul. Trailing whitespace is trimmed before storage. The standard ritual is `read_soul → revise locally → update_soul`.
 
-### `recall`
+### Recommended structure (docs-only)
 
-Read the entire soul journal. Agents typically do this at the start of a session to pick up where prior sessions left off. The same content is also available via the `geas://soul` resource.
+The server doesn't validate shape, but souls usually organize around four sections:
+
+```markdown
+## Identity
+Who this character is — name, vibe, one-line concept.
+
+## Build
+STR/AGI/INT/CHA targets, equipped skills, key traits.
+
+## Combat
+Openers, when to flee, when to spend mana.
+
+## World
+Specific NPCs, quest hooks, dangerous tiles, shop locations.
+```
+
+When trimming to fit the cap, prefer keeping evergreen build/identity notes over transient world notes — the world is cheap to re-discover via `nearest` / `look`, but your character's archetype is what your future-self will need.
+
+### Level-up soft gate (`soulUpdatePending`)
+
+Every level-up is the natural moment to refresh the soul. The server emits a soft signal when a level-up is outstanding and the soul hasn't been rewritten since:
+
+- After a level-up, both `status` and `whoami` carry `soulUpdatePending: true` plus the raw `lastLevelUpAt` / `soulUpdatedAt` timestamps.
+- The `level_up` event payload also carries `soulUpdatePending: true`.
+- If `choose_levelup` is called while pending is still true, the response **succeeds normally** but `events[]` includes a non-fatal `SOUL_UPDATE_REMINDER`. The choice still applies — this is a nudge, not a block.
+
+Calling `update_soul` (with anything) clears the flag. Recommended order: read soul → revise → update soul → allocate stats → choose levelup.
 
 ### How it works
 
-The soul file is plain markdown with entries like:
-
-```markdown
-# Soul: nick
-
-## 2026-04-20T18:41:28Z
-
-Session 2026-04-17: Default spawn (40,378) is a village. Villager
-npc_0 offers goblin_slayer...
-
-## 2026-04-20T18:52:29Z
-
-Combat learnings: (1) turn cycle is STRICT — you MUST end_turn
-between attacks...
-```
-
-The character registry + active-character pointer live in Firestore under `users/{google_sub}/characters/{playerId}` and `users/{google_sub}/active/current`. State survives sign-outs and session restarts because it's keyed on your Google identity, not on a local file.
+The per-character soul lives in Firestore under `users/{google_sub}/characters/{playerId}` alongside the character save (fields `soul: string` and `soulUpdatedAt: string`). The character registry + active-character pointer also live under `users/{google_sub}/...`. State survives sign-outs and session restarts because it's keyed on your Google identity, not on a local file.
 
 ## Character management
 
@@ -310,7 +326,7 @@ Fresh ASCII map view. Re-rendered on every read. `text/plain`. Useful when you w
 
 ### `geas://soul`
 
-This agent's persistent markdown journal, same content as `recall`. Attach at the start of a conversation to seed context from prior sessions.
+The active character's persistent markdown soul, same content as `read_soul`. Attach at the start of a conversation to seed context from prior sessions. The resource is per-character — switching characters changes what this returns.
 
 ## The event catalogue
 

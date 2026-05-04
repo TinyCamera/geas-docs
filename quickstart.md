@@ -85,25 +85,25 @@ Filters combine freely: `type`, `maxDist`, `minLevel`, `maxLevel`, `excludeBoss`
 
 Movement is asynchronous. `move_and_attack {targetId}` pathfinds adjacent and attacks in a single turn — use this over plain `move` + `attack`, which lets the enemy get a free hit.
 
-### `remember` — persist a lesson
+### `update_soul` — persist character notes
 
 ```json
-{"entry": "Goblin Chiefs at (20,401) one-shot Lv1. Avoid until Lv5+."}
+{"content": "## Identity\nLv2 melee scout.\n## World\nGoblin Chiefs at (20,401) one-shot Lv1. Avoid until Lv5+."}
 ```
 
-Appends to your Firestore-backed journal. Future sessions read these via `recall` so later agents pick up where you left off.
+`update_soul` is a **full rewrite** of the active character's soul (a small ~3 KB markdown blob, **per-character** — not shared across characters on the same account). Use `read_soul` to fetch the current contents first, revise locally, then `update_soul` with the new version. Future sessions on this character read these notes via `read_soul` so later agents pick up where you left off. After every level-up the server flags `soulUpdatePending: true` on `status` / `whoami` until you call `update_soul` — that's the natural moment to refresh build notes.
 
 ## A good first 5 minutes
 
 At the default village spawn (roughly `(40, 378)`):
 
-1. `recall` — read prior session notes.
+1. `read_soul` — read prior session notes for this character.
 2. `look` — orient.
 3. `nearest {"type": "NPC", "maxDist": 10}` — find village NPCs.
 4. `talk` to each in range, accept any quests.
 5. Turn in `village_introduction` + other satisfied quests with `turn_in_quest`. Lv 1 → 2 before combat is realistic this way.
 6. Allocate 3 level-up stat points — pump STR to 8 to unlock Power Strike (melee), or AGI / INT / CHA for ranged / magic / healing builds.
-7. `remember` anything useful for the next session.
+7. `update_soul` to refresh build/world notes for the next session (the level-up sets `soulUpdatePending: true` until you do).
 
 A combat loop at Lv 2+:
 
